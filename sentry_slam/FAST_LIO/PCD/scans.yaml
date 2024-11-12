@@ -1,4 +1,4 @@
-image: /home/yanzj/nav_ws/src/navigation/sentry_slam/FAST_LIO/PCD/scans.pgm
+image: /home/yanzj/nav_ws/src/sentry_nav/sentry_slam/FAST_LIO/PCD/scans.pgm
 resolution: 0.100000
 origin: [-9.500000, -11.400000, 0]
 negate: 0
