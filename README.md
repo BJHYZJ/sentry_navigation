@@ -255,6 +255,40 @@ output: `body_2d` frame，即机器人在二维栅格地图坐标系下的位姿
 如何修改tf发布和订阅请见: [tf/Tutorials](http://wiki.ros.org/tf/Tutorials)(ps: 没有找见很好的中文材料，且英文教程和源码比较官方详细)
 
 
+**Add in 2024.11.12**
+
+为了适应当前mid360和ranger mini 3的安装方式，我将`sentry_build_map.launch`和`sentry_localize.launch`中的相对位置修改如下：
+```bash
+	<!-- 发布一个雷达body到机器人足端body_foot的静态映射 -->
+	<node pkg="tf2_ros" type="static_transform_publisher" name="tf_pub_1" args="-0.3 0 0 0 0 0 body body_foot" />
+	<!-- 发布一个雷达初始位置camera_init到机器人足端初始位置body_init的静态映射 -->
+	<node pkg="tf2_ros" type="static_transform_publisher" name="tf_pub_2" args="-0.3 0 0 0 0 0 camera_init robot_foot_init" />
+
+```
+此外，在livox_ros_driver2中，我修改了MID360_config.json文件（雷达绕z轴旋转了90度）
+
+```json
+  "lidar_configs" : [
+    {
+      "ip" : "192.168.1.191",
+      "pcl_data_type" : 1,
+      "pattern_mode" : 0,
+      "extrinsic_parameter": {
+        "roll": 0.0,
+        "pitch": 0.0,
+        "yaw": -90,
+        "x": 0,
+        "y": 0,
+        "z": 0
+      }
+    }
+  ]
+```
+<div align="center"><img src="doc/robot_ranger_mini_3_mid_360.jpg" width=90% /></div>
+<div align="center">ranger mini 3 上安装 mid 360 的实机样子</div>
+<br>
+
+
 ---
 ### 5. MOVE_BASE 避障和路径规划
 
