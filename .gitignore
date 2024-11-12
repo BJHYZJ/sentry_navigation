@@ -1,0 +1,7 @@
+.vscode
+build
+*/build/
+devel
+.catkin_workspace
+*.pcd
+*.pgm
