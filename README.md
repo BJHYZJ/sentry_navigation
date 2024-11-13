@@ -29,6 +29,11 @@ sh ~/nav_ws/src/sentry_navigation/sentry_slam/FAST_LIO_LOCALIZATION/scripts/save
 roslaunch sentry_nav localize.launch
 # 默认会使用初始点，TODO `rosrun fast_lio_localization publish_initial_pose.py 0 0 0 0 0 0`
 # 用rviz发布目标点
+
+# 启动ranger mini 3
+# rosrun ranger_bringup setup_can2usb.bash
+# rosrun ranger_bringup bringup_can2usb.bash
+
 roslaunch sentry_serial sentry_serial.launch
 ```
 

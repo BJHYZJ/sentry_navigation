@@ -2,5 +2,5 @@ free_thresh: 0.196
 image: /home/yanzj/nav_ws/src/sentry_navigation/sentry_slam/FAST_LIO/PCD/scans.pgm
 negate: 0
 occupied_thresh: 0.65
-origin: [-2.5, -6.7, 0]
+origin: [-6.7, -7.0, 0]
 resolution: 0.1
