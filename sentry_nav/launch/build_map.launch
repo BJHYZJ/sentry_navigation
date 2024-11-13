@@ -1,0 +1,8 @@
+<launch>
+
+    <include file="$(find livox_ros_driver2)/launch_ROS1/msg_MID360.launch">
+    </include>
+    <include file="$(find fast_lio_localization)/launch/sentry_build_map.launch">
+    </include>
+
+</launch>

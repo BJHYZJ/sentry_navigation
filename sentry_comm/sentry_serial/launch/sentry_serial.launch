@@ -1,38 +1,17 @@
-<launch>
+<!-- <launch>
     <param name="cmd_vel_topic" type="string" value="cmd_vel"/>
     <node pkg="sentry_serial" type="sentry_send" name="sentry_send" output="screen" 
     args="/dev/ttyACM0">
 	
     </node>
+</launch> -->
+
+
+
+<launch>
+    <arg name="cmd_vel_topic" default="cmd_vel"/>
+    <node pkg="ranger_base" type="ranger_base_node" name="ranger_base_node" output="screen">
+        <param name="can_interface" value="can0"/>
+        <param name="cmd_vel_topic" value="$(arg cmd_vel_topic)"/>
+    </node>
 </launch>
-
-<!-- <launch>
-    <param name="cmd_vel_topic" type="string" value="cmd_vel"/>
-
-    <node pkg="socketcan_bridge" type="socketcan_bridge_node" name="socketcan_bridge_node" output="screen">
-        <param name="interface" value="can0" />
-        <param name="baudrate" value="500000" />
-    </node>
-</launch> -->
-
-
-
-<!-- <launch>
-    <!-- cmd_vel topic, 这个参数可以传递给节点 -->
-    <param name="cmd_vel_topic" type="string" value="cmd_vel"/>
-
-    <!-- 使用 socketcan_bridge 将 CAN 总线与 ROS 消息桥接 -->
-    <node pkg="socketcan_bridge" type="socketcan_bridge_node" name="socketcan_bridge_node" output="screen">
-        <param name="interface" value="can0" />
-        <param name="baudrate" value="500000" />
-        <param name="recv_topic" value="received_messages" />  <!-- 接收的 CAN 消息会发布到这个 ROS 话题 -->
-        <param name="send_topic" value="send_messages" />      <!-- 可以发布到这个话题来发送 CAN 消息 -->
-    </node>
-
-    <!-- 自定义的节点，将消息转换为 cmd_vel -->
-    <node pkg="your_package" type="can_to_cmdvel" name="can_to_cmdvel" output="screen">
-        <param name="cmd_vel_topic" value="cmd_vel"/>
-        <param name="can_recv_topic" value="received_messages"/> <!-- 从 CAN 总线接收的消息话题 -->
-        <param name="can_send_topic" value="send_messages"/>     <!-- 发送 CAN 消息的话题 -->
-    </node>
-</launch> -->

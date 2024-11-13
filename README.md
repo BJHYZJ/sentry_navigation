@@ -10,6 +10,53 @@
 - ros-noetic 
 - ubuntu 20.04  
 
+
+## 运行命令
+本导航系统运行的最终的命令为:
+
+### easy run
+
+  1. build the map  构建地图
+```bash
+roslaunch sentry_nav build_map.launch
+# save map with edit origin to make sure result is ok
+sh ~/nav_ws/src/sentry_navigation/sentry_slam/FAST_LIO_LOCALIZATION/scripts/save_map.sh ~/nav_ws/src/sentry_navigation/sentry_slam/FAST_LIO/PCD/scans
+```
+
+
+  2. navigation 导航（基于icp重定位, easy to run）
+```bash
+roslaunch sentry_nav localize.launch
+# 默认会使用初始点，TODO `rosrun fast_lio_localization publish_initial_pose.py 0 0 0 0 0 0`
+# 用rviz发布目标点
+roslaunch sentry_serial sentry_serial.launch
+```
+
+
+### debug run
+
+  1. build the map  构建地图
+```bash
+roslaunch livox_ros_driver2 msg_MID360.launch
+roslaunch fast_lio_localization sentry_build_map.launch
+# rosrun map_server map_saver map:=/projected_map -f /home/yanzj/nav_ws/src/sentry_navigation/sentry_slam/FAST_LIO/PCD/scans
+# save map with edit origin to make sure result is ok
+roslaunch fast_lio_localization sentry_save_map.launch map_file:=/home/yanzj/nav_ws/src/sentry_navigation/sentry_slam/FAST_LIO/PCD/scans
+```
+
+
+  2. navigation 导航（基于icp重定位, multi console）
+```bash
+roslaunch livox_ros_driver2 msg_MID360.launch
+roslaunch fast_lio_localization sentry_localize.launch
+# 用rviz发布初始位姿或者 `rosrun fast_lio_localization publish_initial_pose.py 0 0 0 0 0 0`
+roslaunch sentry_nav sentry_movebase.launch
+# 用rviz发布目标点
+roslaunch sentry_serial sentry_serial.launch
+```
+
+
+
 你可以跟着下文步骤，逐一对clone开源仓库，再进行修改配置，但是建议直接直接克隆本仓库至你的工作空间的src下（因为做了很多修改，如果再clone我引用的原来的仓库，可能有些地方我没记在README里面导致你运行失败）然后再根据本文的顺序逐一进行配置和尝试
 
 <div align="center"><img src="doc/sentry_navigation.png" width=90% /></div>
@@ -395,7 +442,9 @@ rosrun sentry_serial sentry_send /dev/ttyACM0
 ```bash
 roslaunch livox_ros_driver2 msg_MID360.launch
 roslaunch fast_lio_localization sentry_build_map.launch
-rosrun map_server map_saver map:=/projected_map -f /home/yanzj/nav_ws/src/sentry_nav/sentry_slam/FAST_LIO/PCD/scans
+# rosrun map_server map_saver map:=/projected_map -f /home/yanzj/nav_ws/src/sentry_navigation/sentry_slam/FAST_LIO/PCD/scans
+# save map with edit origin to make sure result is ok
+roslaunch fast_lio_localization sentry_save_map.launch map_file:=/home/yanzj/nav_ws/src/sentry_navigation/sentry_slam/FAST_LIO/PCD/scans
 ```
 
 
@@ -450,7 +499,6 @@ roslaunch sentry_serial sentry_serial.launch
 由于move_base的输出/cmd_vel经常有速度的突变，且控制频率不高的条件下，会导致机器人运动卡顿，为了平滑机器人的运动，我们使用`velocity_smoother_ema`包(基于ema算法)对于输出的速度进行平滑处理，此处也可以使用`yocs_velocity_smoother`.
 ```bash
 git clone https://github.com/seifEddy/velocity_smoother_ema.git
-
 ```
 velocity_smoother_ema的启动已经添加至sentry_movebase.launch file，并且现在串口订阅的是滤波后的速度即`/smooth_cmd_cel`
 <div align="center"><img src="doc/Filter-11-10.png" width=100% /></div>
