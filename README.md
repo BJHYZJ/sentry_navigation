@@ -329,7 +329,7 @@ output: `body_2d` frame，即机器人在二维栅格地图坐标系下的位姿
 
      - `roslaunch livox_ros_driver2 msg_MID360.launch`
      - `roslaunch fast_lio_localization sentry_build_map.launch`
-     - 如果你认为当前构建的栅格地图还可以,运行 `rosrun map_server map_saver map:=/projected_map -f /home/rm/ws_sentry/src/sentry_slam/FAST_LIO/PCD/scans`, 来保存栅格地图，注意，三维点云的PCD是运行结束后自动保存到在launch file中指定的路径下的
+     - 如果你认为当前构建的栅格地图还可以,运行 `rosrun map_server map_saver map:=/projected_map -f /home/yanzj/nav_ws/src/sentry_nav/sentry_slam/FAST_LIO/PCD/scans`, 来保存栅格地图，注意，三维点云的PCD是运行结束后自动保存到在launch file中指定的路径下的
   2. navigation 导航
      - check the 2d map in PCD dir, especially the `scans.yaml`, make sure the `origin`[x,y,yaw] can not be nan.   
      检查在fast_lio/PCD下中保存的2d地图`scans.yaml`,确保其中参数`origin`[x,y,yaw]不能是nan，如果yaw是nan的话，将其设置为0.
@@ -395,7 +395,7 @@ rosrun sentry_serial sentry_send /dev/ttyACM0
 ```bash
 roslaunch livox_ros_driver2 msg_MID360.launch
 roslaunch fast_lio_localization sentry_build_map.launch
-rosrun map_server map_saver map:=/projected_map -f /home/rm/ws_sentry/src/sentry_slam/FAST_LIO/PCD/scans
+rosrun map_server map_saver map:=/projected_map -f /home/yanzj/nav_ws/src/sentry_nav/sentry_slam/FAST_LIO/PCD/scans
 ```
 
 

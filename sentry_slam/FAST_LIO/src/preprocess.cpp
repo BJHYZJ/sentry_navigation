@@ -166,7 +166,7 @@ void Preprocess::avia_handler(const livox_ros_driver2::CustomMsg::ConstPtr &msg)
         {
           float x = msg->points[i].x;
           float y = msg->points[i].y;
-          float angle = atan2(x, y) * 180.0 / M_PI;
+          float angle = atan2(y, x) * 180.0 / M_PI;
 
           // if ((x >0 && y >0) || (x < 0 && y > 0)){
           if (angle >= -135.0 && angle <= 135.0)
