@@ -9,9 +9,10 @@
 
 
 <launch>
-    <arg name="cmd_vel_topic" default="cmd_vel"/>
+    <!-- <arg name="cmd_vel_topic" default="cmd_vel"/> -->
     <node pkg="ranger_base" type="ranger_base_node" name="ranger_base_node" output="screen">
-        <param name="can_interface" value="can0"/>
-        <param name="cmd_vel_topic" value="$(arg cmd_vel_topic)"/>
+        <param name="robot_model" value="ranger_mini_v2"/>  
+        <!-- <param name="can_interface" value="can0"/>
+        <param name="cmd_vel_topic" value="$(arg cmd_vel_topic)"/> -->
     </node>
 </launch>

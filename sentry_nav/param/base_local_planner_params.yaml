@@ -1,101 +1,64 @@
-# TrajectoryPlannerROS:
- 
-# # Robot Configuration Parameters
-#   max_vel_x: 0.5 # X 方向最大速度
-#   min_vel_x: 0.1 # X 方向最小速速
-#   max_vel_y: 0.5 # X 方向最小速速
-#   min_vel_y: 0.1 # X 方向最小速速
- 
-#   max_vel_theta:  1.0 # 
-#   min_vel_theta: -1.0
-#   min_in_place_vel_theta: 1.0
- 
-#   acc_lim_x: 1.0 # X 加速限制
-#   acc_lim_y: 1.0 # Y 加速限制
-#   acc_lim_theta: 0.6 # 角速度加速限制
- 
-# # Goal Tolerance Parameters，目标公差
-  # xy_goal_tolerance: 0.2 #default:0.1
-  # yaw_goal_tolerance: 0.1 #default:0.05
- 
-# # Differential-drive robot configuration
-# # 是否是全向移动机器人
-#   holonomic_robot: true
- 
-# # Forward Simulation Parameters，前进模拟参数
-#   sim_time: 2
-#   vx_samples: 18
-#   vx_samples: 10
-#   vtheta_samples: 20
-#   sim_granularity: 0.05
+# reference from https://wiki.ros.org/dwa_local_planner?distro=noetic
 
-
-  # =================== segement ===============
 base_local_planner: "dwa_local_planner/DWAPlannerROS"
 
-controller_frequency: 20      # 20.0
-# controller_patience:  15.0      # 15.0
 
 DWAPlannerROS:
   odom_topic: Odometry
   holonomic_robot: true
 
-  # Tolerances                  Defaults
-  xy_goal_tolerance: 0.2 #default:0.1
-  yaw_goal_tolerance: 0.05 #default:0.05
-  latch_xy_goal_tolerance: false # false
 
-  # Forward simulation          Defaults
-  use_dwa: true                 # true
-  sim_time: 2.0                 # 1.7
-  sim_granularity: 0.07       # 0.025
-  angular_sim_granularity: 0.1 # 0.10 (1 degree = 0.017 rad)
-  vx_samples: 15               # 3
-  vy_samples: 15               # 10
-  vth_samples: 15               # 20
+  acc_lim_x: 2.5  # 机器人的 x 加速度限制（以米/秒^2 为单位）
+  acc_lim_y: 2.5  # 机器人的 y 加速度限制（以米/秒^2 为单位）
+  acc_lim_th: 3.2  # 机器人的旋转加速度限制（以弧度/秒^2 为单位）
 
+  max_vel_trans: 0.55  # 机器人最大平移速度的绝对值（单位：米/秒）
+  min_vel_trans: 0.1  # 机器人最小平移速度的绝对值（单位：米/秒）
 
+  max_vel_x: 0.55  # 机器人的最大 x 速度（以米/秒为单位）。
+  min_vel_x: 0.0  # 机器人的最小 x 速度（以米/秒为单位），向后运动时为负数。
 
-  # Scoring                     Defaults
-  # meter_scoring: false          # Is this even taken into account?
-  # path_distance_bias: 1.00      # 32.0
-  goal_distance_bias: 24     # 24.0
-  # occdist_scale: 0.01           # 0.01
-  # forward_point_distance: 0.325 # 0.325
-  # stop_time_buffer: 0.20        # 0.20
-  scaling_speed: 0.7           # 0.25
-  # max_scaling_factor: 0.20      # 0.20
-  # heading_lookahead: 0.325
-  # heading_scoring_timestep: 0.8
-  # heading_scoring: true         # Is this even taken into account?
-  # penalize_negative_x: false    # Is this even taken into account?
+  max_vel_y: 0.1  # 机器人的最大 y 速度（单位：米/秒）
+  min_vel_y: -0.1  # 机器人的最小 y 速度（单位：米/秒）
 
-  # Acceleration and velocity limits
-
-  acc_limit_trans: 10
-  acc_lim_x: 10.0                # 2.5
-  acc_lim_y: 10.0                # 2.5
-  # acc_lim_theta: 1.0            # 3.2
-
-  max_trans_vel: 1
-  min_trans_vel: 0.4
-  max_vel_x: +1
-  min_vel_x: -1
-  max_vel_y: +1
-  min_vel_y: -1
-  max_rot_vel: 1.0
-  min_rot_vel: 0.4
-
-  # Other                       Defaults
-  oscillation_reset_dist: 0.1  # 0.05
-  # oscillation_reset_angle: 0.20 # 0.20
-  # prune_plan: false             # true
-  # trans_stopped_vel: 0.1        # 0.1
-  # rot_stopped_vel: 0.1          # 0.1
-  # publish_cost_grid_pc: true    # false
+  max_rot_vel: 1.0  # 机器人最大旋转速度的绝对值（弧度/秒）
+  min_rot_vel: 0.4  # 机器人最小旋转速度的绝对值（弧度/秒）
 
 
-  publish_traj_pc: true
-  publish_cost_grid_pc: true
-  # global_frame_id: camera_init_2d
-  global_frame_id: robot_foot_init
+
+  yaw_goal_tolerance: 0.05  # 控制器在实现其目标时偏航/旋转的弧度公差
+  xy_goal_tolerance: 0.10  # 实现目标时控制器在 x 和 y 距离上的公差（以米为单位）
+  latch_xy_goal_tolerance: false  # 如果目标公差被锁定，当机器人到达目标 xy 位置时它就会简单地在原地旋转，即使它在这样做的时候最终超出了目标公差。
+
+
+  sim_time: 1.7  # 向前模拟轨迹的时间（以秒为单位）
+  sim_granularity: 0.025  # 指定轨迹上各点之间的步长（以米为单位）
+  vx_samples: 3  # 探索 x 速度空间时使用的样本数量
+  vy_samples: 10  # 探索 y 速度空间时使用的样本数量
+  vth_samples: 20  # 探索 θ 速度空间时使用的样本数量
+
+  # 此控制器的调用频率（单位为 Hz）。如果控制器的命名空间中未设置参数，则使用 searchParam 从父命名空间读取参数。对于move_base的使用
+  # ，这意味着您只需设置其“controller_frequency”参数，并且可以安全地不设置该参数。
+  # controller_frequency: 20.0  
+
+
+  # cost =
+  # path_distance_bias * (distance to path from the endpoint of the trajectory in meters)
+  # + goal_distance_bias * (distance to local goal from the endpoint of the trajectory in meters)
+  # + occdist_scale * (maximum obstacle cost along the trajectory in obstacle cost (0-254))
+
+
+  path_distance_bias: 32  # 控制器应在多大程度上接近给定的路径的权重
+  goal_distance_bias: 24  # 控制器应尝试达到其局部目标的权重，also controls speed
+  occdist_scale: 0.01  # 控制器应尝试避开障碍物的权重
+  forward_point_distance: 0.325  # 从机器人中心点到附加得分点的距离，以米为单位
+  stop_time_buffer: 0.2  # 机器人在发生碰撞前必须停止的时间，以使轨迹被视为有效（以秒为单位）
+  scaling_speed: 0.25  # 开始缩放机器人足迹的速度绝对值，以米/秒为单位
+  max_scaling_factor: 0.2  # 机器人占地面积的最大缩放系数
+  # 是否发布规划器在规划时将使用的成本网格。如果为 true，则 sensor_msgs/PointCloud2 将在 ~<name>/cost_cloud 主题上可用。
+  # 每个点云代表成本网格，并且具有每个单独评分函数组件的字段以及每个单元的总体成本，其中考虑了评分参数。
+  publish_cost_grid: false
+
+
+  oscillation_reset_dist: 0.05  # 机器人必须行进多少米才能重置振荡标志
+  prune_plan: true  # 定义机器人沿路径移动时是否吃掉计划。如果设置为 true，则机器人越过这些点 1 米后，这些点将从计划末尾掉落。
