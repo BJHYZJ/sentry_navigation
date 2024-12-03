@@ -21,8 +21,8 @@ DWAPlannerROS:
   max_vel_y: 0.1  # 机器人的最大 y 速度（单位：米/秒）
   min_vel_y: -0.1  # 机器人的最小 y 速度（单位：米/秒）
 
-  max_rot_vel: 1.0  # 机器人最大旋转速度的绝对值（弧度/秒）
-  min_rot_vel: 0.4  # 机器人最小旋转速度的绝对值（弧度/秒）
+  max_rot_vel: 0.8  # 机器人最大旋转速度的绝对值（弧度/秒）
+  min_rot_vel: 0.2  # 机器人最小旋转速度的绝对值（弧度/秒）
 
 
 
@@ -31,8 +31,8 @@ DWAPlannerROS:
   latch_xy_goal_tolerance: false  # 如果目标公差被锁定，当机器人到达目标 xy 位置时它就会简单地在原地旋转，即使它在这样做的时候最终超出了目标公差。
 
 
-  sim_time: 1.7  # 向前模拟轨迹的时间（以秒为单位）
-  sim_granularity: 0.025  # 指定轨迹上各点之间的步长（以米为单位）
+  sim_time: 1.2  # 向前模拟轨迹的时间（以秒为单位）
+  sim_granularity: 0.05  # 指定轨迹上各点之间的步长（以米为单位）
   vx_samples: 3  # 探索 x 速度空间时使用的样本数量
   vy_samples: 10  # 探索 y 速度空间时使用的样本数量
   vth_samples: 20  # 探索 θ 速度空间时使用的样本数量
@@ -48,17 +48,17 @@ DWAPlannerROS:
   # + occdist_scale * (maximum obstacle cost along the trajectory in obstacle cost (0-254))
 
 
-  path_distance_bias: 32  # 控制器应在多大程度上接近给定的路径的权重
-  goal_distance_bias: 24  # 控制器应尝试达到其局部目标的权重，also controls speed
+  path_distance_bias: 10  # 控制器应在多大程度上接近给定的路径的权重
+  goal_distance_bias: 40  # 控制器应尝试达到其局部目标的权重，also controls speed
   occdist_scale: 0.01  # 控制器应尝试避开障碍物的权重
   forward_point_distance: 0.325  # 从机器人中心点到附加得分点的距离，以米为单位
   stop_time_buffer: 0.2  # 机器人在发生碰撞前必须停止的时间，以使轨迹被视为有效（以秒为单位）
-  scaling_speed: 0.25  # 开始缩放机器人足迹的速度绝对值，以米/秒为单位
-  max_scaling_factor: 0.2  # 机器人占地面积的最大缩放系数
+  scaling_speed: 0.2  # 开始缩放机器人足迹的速度绝对值，以米/秒为单位
+  max_scaling_factor: 0.1  # 机器人占地面积的最大缩放系数
   # 是否发布规划器在规划时将使用的成本网格。如果为 true，则 sensor_msgs/PointCloud2 将在 ~<name>/cost_cloud 主题上可用。
   # 每个点云代表成本网格，并且具有每个单独评分函数组件的字段以及每个单元的总体成本，其中考虑了评分参数。
   publish_cost_grid: false
 
 
-  oscillation_reset_dist: 0.05  # 机器人必须行进多少米才能重置振荡标志
+  oscillation_reset_dist: 0.1  # 机器人必须行进多少米才能重置振荡标志
   prune_plan: true  # 定义机器人沿路径移动时是否吃掉计划。如果设置为 true，则机器人越过这些点 1 米后，这些点将从计划末尾掉落。
